@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuwc.learn.models.Test.dao.UserDao">
+
+  <sql id="columnList" >
+    id, loginName, userName,sex,password, delFlag, addTime,addUserId,addMark, updTime, updUserId,updMark
+  </sql>
+
+   <!-- 查询用户信息 -->
+  <select id="getUser" resultType="com.xuwc.learn.models.Test.vo.UserVo" parameterType="java.lang.String">
+      SELECT
+      <include refid="columnList" />
+      FROM sys_user
+      WHERE loginName = #{loginName}
+  </select>
+
+</mapper>
