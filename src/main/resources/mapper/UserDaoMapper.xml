@@ -2,16 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xuwc.learn.models.Test.dao.UserDao">
 
-  <sql id="columnList" >
-    id, loginName, userName,sex,password, delFlag, addTime,addUserId,addMark, updTime, updUserId,updMark
-  </sql>
+      <!-- 用户表属性 -->
+      <sql id="userColumnList" >
+        su.id,
+        su.loginName,
+        su.userName,
+        su.sex,
+        su.password,
+        su.delFlag,
+        su.addTime,
+        su.addUserId,
+        su.addMark,
+        su.updTime,
+        su.updUserId,
+        su.updMark
+      </sql>
+
+    <!-- 角色表属性 -->
+    <sql id="roleColumnList" >
+        sr.id AS roleId,
+        sr.`name`,
+        sr.remark,
+        sr.state,
+        sr.delFlag,
+        sr.addTime,
+        sr.addUserId,
+        sr.addMark,
+        sr.updTime,
+        sr.updUserId,
+        sr.updMark
+    </sql>
+
+    <resultMap id="userMap" type="com.xuwc.learn.models.Test.vo.UserVo" >
+        <id column="id" property="id"/>
+        <result column="loginName" property="loginName" jdbcType="VARCHAR" />
+        <result column="userName" property="userName" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="VARCHAR" />
+        <result column="photoImage" property="photoImage" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <collection property="roleList" ofType="com.xuwc.learn.models.Test.vo.RoleVo">
+            <id column="roleId" property="roleId"/>
+            <result column="name" property="name" jdbcType="VARCHAR" />
+            <result column="remark" property="remark" jdbcType="VARCHAR" />
+            <result column="state" property="state" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+
+
 
    <!-- 查询用户信息 -->
-  <select id="getUser" resultType="com.xuwc.learn.models.Test.vo.UserVo" parameterType="java.lang.String">
+  <select id="getUser" resultMap="userMap" parameterType="java.lang.String">
       SELECT
-      <include refid="columnList" />
-      FROM sys_user
-      WHERE loginName = #{loginName}
+      <include refid="userColumnList" />,
+      <include refid="roleColumnList" />
+      FROM sys_user su
+      LEFT JOIN sys_user_role sur ON sur.userId = su.id AND sur.delFlag='0'
+      LEFT JOIN sys_role sr ON sur.role_id = sr.id AND sr.delFlag='0'
+      WHERE su.loginName = #{loginName}
+      AND su.delFlag='0'
   </select>
 
 </mapper>

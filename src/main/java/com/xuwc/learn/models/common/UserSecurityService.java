@@ -6,6 +6,7 @@
 package com.xuwc.learn.models.common;
 
 import com.xuwc.learn.models.Test.dao.UserDao;
+import com.xuwc.learn.models.Test.vo.RoleVo;
 import com.xuwc.learn.models.Test.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 /** UserSecurityService
@@ -39,10 +41,14 @@ public class UserSecurityService implements UserDetailsService {
             throw new UsernameNotFoundException("user not found");
         }
 
-        // build roles for user
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        //authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+        //获取用户的角色信息
+        List<RoleVo> roleList = user.getRoleList();
+        //遍历插入角色
+        for(RoleVo roleVo : roleList){
+            authorities.add(new SimpleGrantedAuthority(roleVo.getName()));
+        }
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUserName(),

@@ -38,27 +38,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
             http
                 .authorizeRequests()
-                    .antMatchers("/", "/home").permitAll()
+                    .antMatchers("/", "/index").permitAll()
                     .antMatchers("/admin/**").hasRole("ADMIN")  //admin 角色才能访问
                     .antMatchers("/xwc/**").access("hasRole('ADMIN') and hasRole('XWC')")  // 同时拥有admin和xwc的角色才能访问
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
                     .loginPage("/login")
+                    .defaultSuccessUrl("/index")
                     .permitAll()
                     .and()
                 .logout()
                     .permitAll();
+
+        //session失效后跳转
+        http.sessionManagement().invalidSessionUrl("/login");
+        //只允许一个用户登录,如果同一个账户两次登录,那么第一个账户将被踢下线,跳转到登录页面
+        http.sessionManagement().maximumSessions(1).expiredUrl("/login");
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService());
-//            auth
-//                .inMemoryAuthentication()
-//                .withUser("xwc")
-//                .password("xwc123")
-//                .roles("USER");
     }
 
     @Override

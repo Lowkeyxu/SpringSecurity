@@ -8,6 +8,7 @@ package com.xuwc.learn.models.Test.controller;
 import com.xuwc.learn.models.Test.service.UserService;
 import com.xuwc.learn.models.Test.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ public class UserAction {
      * 获取用户信息
      * @return
      */
+    @PreAuthorize("hasRole('XWC')")
     @RequestMapping("/info")
     public String index(String loginName,ModelMap map){
         UserVo userVo = userService.getUser(loginName);

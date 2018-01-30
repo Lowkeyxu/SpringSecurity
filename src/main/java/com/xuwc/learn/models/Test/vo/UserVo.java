@@ -6,34 +6,57 @@
 package com.xuwc.learn.models.Test.vo;
 
 
-import com.xuwc.learn.common.base.entity.BaseEntity;
+import com.xuwc.learn.common.base.entity.DbBaseVo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** 用户vo
  * @author xuwc
  * @version 1.0
  * @since 2017/12/7
  */
-public class UserVo extends BaseEntity{
-    private String id;
+public class UserVo extends DbBaseVo<UserVo> {
+    //登录名称
     private String loginName;
+    //用户名称
     private String userName;
+    //性别
     private String sex;
+    //用户头像
     private String photoImage;
+    //密码
     private String password;
-    private String delFlag;
-    private String addTime;
-    private String addUserId;
-    private String addMark;
-    private String updTime;
-    private String updUserId;
-    private String updMark;
+    //用户角色集合
+    private List<RoleVo> roleList = new ArrayList<RoleVo>();
+    //用户角色菜单
+    private List<RoleMenuVo> roleMenuList = new ArrayList<RoleMenuVo>();
+    //用户菜单集合
+    private List<MenuVo> menuList = new ArrayList<MenuVo>();
 
-    public String getId() {
-        return id;
+
+    public List<RoleVo> getRoleList() {
+        return roleList;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setRoleList(List<RoleVo> roleList) {
+        this.roleList = roleList;
+    }
+
+    public List<RoleMenuVo> getRoleMenuList() {
+        return roleMenuList;
+    }
+
+    public void setRoleMenuList(List<RoleMenuVo> roleMenuList) {
+        this.roleMenuList = roleMenuList;
+    }
+
+    public List<MenuVo> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<MenuVo> menuList) {
+        this.menuList = menuList;
     }
 
     public String getLoginName() {
@@ -76,59 +99,4 @@ public class UserVo extends BaseEntity{
         this.password = password;
     }
 
-    public String getDelFlag() {
-        return delFlag;
-    }
-
-    public void setDelFlag(String delFlag) {
-        this.delFlag = delFlag;
-    }
-
-    public String getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(String addTime) {
-        this.addTime = addTime;
-    }
-
-    public String getAddUserId() {
-        return addUserId;
-    }
-
-    public void setAddUserId(String addUserId) {
-        this.addUserId = addUserId;
-    }
-
-    public String getAddMark() {
-        return addMark;
-    }
-
-    public void setAddMark(String addMark) {
-        this.addMark = addMark;
-    }
-
-    public String getUpdTime() {
-        return updTime;
-    }
-
-    public void setUpdTime(String updTime) {
-        this.updTime = updTime;
-    }
-
-    public String getUpdUserId() {
-        return updUserId;
-    }
-
-    public void setUpdUserId(String updUserId) {
-        this.updUserId = updUserId;
-    }
-
-    public String getUpdMark() {
-        return updMark;
-    }
-
-    public void setUpdMark(String updMark) {
-        this.updMark = updMark;
-    }
 }
